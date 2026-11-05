@@ -17,6 +17,7 @@ Set "Hotkey" in the settings to run the same check anywhere, bank open or not. T
 - **Inventory.** Every item in the setup's inventory must be somewhere in yours. Slot order does not matter. If you have fewer than the setup asks for, the item shows with how many more you need.
 - **Worn items.** Each equipment slot in the setup must hold that item.
 - **Potions.** Every potion you carry below the strongest dose the setup asks for that potion is outlined, spares included.
+- **No setup.** With no setup open, or Inventory Setups off, it still outlines every potion that is not full: below the highest dose that potion comes in (4 for most, 2 for barbarian mixes). Jewellery with charges, such as a Games necklace(8), is left alone.
 - **Rune pouch.** Each rune the setup puts in the pouch must be in your pouch or loose in your inventory. A rune the setup wants loose also counts when it is in your pouch.
 - **Fuzzy items.** Where the setup marks an item fuzzy, any charge or dose of it counts.
 
@@ -26,9 +27,9 @@ It does not check how many of a stackable you carry (coins, runes, ammo count as
 
 - **Missing.** A box beside the button, titled "Missing", lists each missing item as its picture with "x2", "x3" and so on beside it. Items you can wear come first, then other items, then stackables, then food and potions. The box keeps its right edge still as it shrinks. Hold Alt and drag it to move it; Alt+right-click puts it back.
 - **Bank numbers.** Each bank item that answers a line of the box shows how many to take out, in bold orange at its bottom-right corner. For a potion the number goes on its strongest dose in your bank. An item to wear gets a 1 unless your inventory already holds it. Numbers for the same bank item add up.
-- **Low potions.** Their outline blinks twice, then stays, in your inventory and in the bank's view of your inventory.
+- **Low potions.** Their outline flashes twice, and the second flash stays, in your inventory and in the bank's view of your inventory.
 - **All good.** When nothing is missing, "All good" shows just above the button.
-- **Messages.** "Needs the Inventory Setups plugin: install or turn it on" when that plugin is missing or off, and "Click View setup in the Inventory Setups plugin (bank filter on)" when no setup is open. They show just above the button. A chat line says the same once per login when Inventory Setups is missing.
+- **No setup.** With no setup open, or Inventory Setups off, a short "Potions only" shows just above the button when potions were outlined, or "Potions full" when none were. Hover the button for what to do: "No setup open: click View setup in the Inventory Setups plugin", or "For the full check, install or turn on the Inventory Setups plugin". A chat line also says so once per login when Inventory Setups is missing.
 
 While a result is up, it updates as your inventory, worn items, rune pouch or bank change: the box shrinks, the numbers count down and the outlines follow. A result from the button stays until the bank closes.
 

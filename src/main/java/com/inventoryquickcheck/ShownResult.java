@@ -39,9 +39,10 @@ public final class ShownResult
 	private final long startMs;
 	private final boolean startedAtBank;
 	private final boolean fromButton;
+	private final String hint;
 
 	private ShownResult(List<Row> rows, String message, Color messageColour, Map<Integer, Integer> lowSlots,
-		Map<Integer, Integer> withdraw, long startMs, boolean startedAtBank, boolean fromButton)
+		Map<Integer, Integer> withdraw, long startMs, boolean startedAtBank, boolean fromButton, String hint)
 	{
 		this.rows = Collections.unmodifiableList(new ArrayList<>(rows));
 		this.message = message;
@@ -51,13 +52,19 @@ public final class ShownResult
 		this.startMs = startMs;
 		this.startedAtBank = startedAtBank;
 		this.fromButton = fromButton;
+		this.hint = hint;
 	}
 
-	/** A not-ready answer: one white line, no rows, no marks. */
-	public static ShownResult notReady(String text, long startMs, boolean startedAtBank, boolean fromButton)
+	/**
+	 * A check with no setup to compare: one white line, Potions full or Potions only (when {@code lowSlots} holds a
+	 * potion), no rows, marks only on the low potions in {@code lowSlots} (slot to item id), and the {@code hint} the
+	 * button's hover text shows.
+	 */
+	public static ShownResult noSetup(String hint, Map<Integer, Integer> lowSlots, long startMs, boolean startedAtBank,
+		boolean fromButton)
 	{
-		return new ShownResult(Collections.<Row>emptyList(), text, Color.WHITE,
-			Collections.<Integer, Integer>emptyMap(), Collections.<Integer, Integer>emptyMap(), startMs, startedAtBank, fromButton);
+		return new ShownResult(Collections.<Row>emptyList(), lowSlots.isEmpty() ? Texts.POTIONS_FULL : Texts.POTIONS_ONLY,
+			Color.WHITE, lowSlots, Collections.<Integer, Integer>emptyMap(), startMs, startedAtBank, fromButton, hint);
 	}
 
 	/**
@@ -83,7 +90,7 @@ public final class ShownResult
 		}
 		final boolean good = result.allGood();
 		return new ShownResult(rows, good ? Texts.ALL_GOOD : null, good ? Color.GREEN : null, slots, withdraw, startMs,
-			startedAtBank, fromButton);
+			startedAtBank, fromButton, null);
 	}
 
 	public List<Row> rows()
@@ -127,5 +134,11 @@ public final class ShownResult
 	public boolean fromButton()
 	{
 		return fromButton;
+	}
+
+	/** The extra hover rows for the button after a no-setup check, or null for every other result. */
+	public String hint()
+	{
+		return hint;
 	}
 }

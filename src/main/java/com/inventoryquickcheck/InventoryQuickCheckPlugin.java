@@ -2,6 +2,7 @@ package com.inventoryquickcheck;
 
 import com.google.gson.Gson;
 import com.google.inject.Provides;
+import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
 import net.runelite.api.ChatMessageType;
@@ -114,7 +115,7 @@ public class InventoryQuickCheckPlugin extends Plugin
 				clientThread.invoke(() -> runCheck(false, System.currentTimeMillis(), BankState.isOpen(client)));
 			}
 		};
-		checkButton = new CheckButton(this, client, config, tooltipManager);
+		checkButton = new CheckButton(this, client, config, tooltipManager, () -> shown);
 		buttonClicks = new ButtonClicks(checkButton::drawn, () -> clientThread.invoke(() -> runCheck(true, System.currentTimeMillis(), BankState.isOpen(client))));
 		overlayManager.add(resultOverlay);
 		overlayManager.add(marksOverlay);
@@ -155,10 +156,10 @@ public class InventoryQuickCheckPlugin extends Plugin
 		switch (answer.state())
 		{
 			case NOT_RUNNING:
-				shown = ShownResult.notReady(Texts.TURN_ON, now, atBank, fromButton);
+				shown = ShownResult.noSetup(Texts.HINT_TURN_ON, lowPotions(), now, atBank, fromButton);
 				break;
 			case NO_SETUP:
-				shown = ShownResult.notReady(Texts.OPEN_SETUP, now, atBank, fromButton);
+				shown = ShownResult.noSetup(Texts.HINT_OPEN_SETUP, lowPotions(), now, atBank, fromButton);
 				break;
 			default:
 				final Carried carried = CarriedReader.read(client);
@@ -168,6 +169,18 @@ public class InventoryQuickCheckPlugin extends Plugin
 				shown = ShownResult.of(result, carried, itemManager::getImage, now, atBank, fromButton, withdraw);
 				break;
 		}
+	}
+
+	/** The inventory slots holding a potion that is not full, slot to item id, for a check with no setup. Client thread. */
+	private Map<Integer, Integer> lowPotions()
+	{
+		final int[] ids = CarriedReader.read(client).inventoryIds;
+		final Map<Integer, Integer> low = new HashMap<>();
+		for (final int slot : LowPotions.slots(ids, facts))
+		{
+			low.put(slot, ids[slot]);
+		}
+		return low;
 	}
 
 	@Subscribe

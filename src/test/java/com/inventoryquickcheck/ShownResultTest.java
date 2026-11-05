@@ -111,18 +111,57 @@ public class ShownResultTest
 		final ShownResult shown = ShownResult.of(none, carried(), id -> null, 1L, true, false,
 			Collections.singletonMap(6685, 3));
 		assertEquals(Collections.singletonMap(6685, 3), shown.withdraw());
-		assertTrue(ShownResult.notReady(Texts.TURN_ON, 5L, true, true).withdraw().isEmpty());
+		assertTrue(ShownResult.noSetup(Texts.HINT_TURN_ON, Collections.<Integer, Integer>emptyMap(), 5L, true, true).withdraw().isEmpty());
 	}
 
 	@Test
-	public void t24e_notReadyIsOneWhiteMessage()
+	public void t24e_noSetupIsOneWhiteMessage()
 	{
-		final ShownResult shown = ShownResult.notReady(Texts.TURN_ON, 5L, true, true);
+		final ShownResult shown = ShownResult.noSetup(Texts.HINT_TURN_ON, Collections.<Integer, Integer>emptyMap(), 5L, true, true);
 		assertTrue(shown.rows().isEmpty());
-		assertEquals(Texts.TURN_ON, shown.message());
+		assertEquals(Texts.POTIONS_FULL, shown.message());
 		assertEquals(Color.WHITE, shown.messageColour());
 		assertTrue(shown.lowSlots().isEmpty());
 		assertTrue(shown.startedAtBank());
 		assertTrue(shown.fromButton());
+	}
+
+	@Test
+	public void n1_noSetupCarriesLowPotionSlots()
+	{
+		final ShownResult shown = ShownResult.noSetup(Texts.HINT_OPEN_SETUP, Collections.singletonMap(3, 6689), 5L, false,
+			false);
+		assertTrue(shown.rows().isEmpty());
+		assertEquals(Texts.POTIONS_ONLY, shown.message());
+		assertEquals(Color.WHITE, shown.messageColour());
+		assertEquals(Collections.singletonMap(3, 6689), shown.lowSlots());
+	}
+
+	@Test
+	public void q1_emptyLowMapSaysPotionsFullAndKeepsTheHint()
+	{
+		final ShownResult shown = ShownResult.noSetup(Texts.HINT_OPEN_SETUP, Collections.<Integer, Integer>emptyMap(), 5L,
+			false, false);
+		assertEquals(Texts.POTIONS_FULL, shown.message());
+		assertEquals(Color.WHITE, shown.messageColour());
+		assertTrue(shown.rows().isEmpty());
+		assertEquals(Texts.HINT_OPEN_SETUP, shown.hint());
+	}
+
+	@Test
+	public void q2_aLowPotionSaysPotionsOnlyAndKeepsMapAndHint()
+	{
+		final ShownResult shown = ShownResult.noSetup(Texts.HINT_TURN_ON, Collections.singletonMap(3, 6689), 5L, false,
+			false);
+		assertEquals(Texts.POTIONS_ONLY, shown.message());
+		assertEquals(Collections.singletonMap(3, 6689), shown.lowSlots());
+		assertEquals(Texts.HINT_TURN_ON, shown.hint());
+	}
+
+	@Test
+	public void q3_aResultFromOfHasNoHint()
+	{
+		final CheckResult none = new CheckResult(new TreeSet<>(), Collections.<CheckResult.Entry>emptyList());
+		assertNull(ShownResult.of(none, carried(), id -> null, 1L, true, false, Collections.<Integer, Integer>emptyMap()).hint());
 	}
 }

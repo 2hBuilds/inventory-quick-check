@@ -8,7 +8,7 @@
 - **The button.** A red "!" on the attack tab while your bank is open.
 - **Missing.** A small box beside the button with each missing item's picture and how many you need. It updates as you withdraw.
 - **Bank numbers.** An orange number on each bank item you need: how many to take out.
-- **Low potions.** Potions below your setup's dose are outlined in your inventory.
+- **Low potions.** Potions below your setup's dose are outlined in your inventory. With no setup open, any potion that isn't full is outlined.
 - **All good.** When nothing is missing, "All good" shows above the button.
 
 ## Quick guide
@@ -21,7 +21,7 @@
 
 ## Good to know
 
-- **Needs Inventory Setups.** Without it, or with no setup open, the button tells you what to do.
+- **Inventory Setups.** Needed for the full check. Without it, or with no setup open, the ! still outlines potions that aren't full; hover it for what to do.
 - **Order doesn't matter.** It checks that each item is there, not which slot it is in. Extra items are ignored.
 - **Stackables.** Coins, runes and ammo count once you carry some.
 - **Move it.** Hold Alt and drag the button or the box. Alt+right-click puts it back.

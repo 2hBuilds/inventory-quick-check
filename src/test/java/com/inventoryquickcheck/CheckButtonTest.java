@@ -56,4 +56,17 @@ public class CheckButtonTest
 		assertFalse(CheckButton.shouldDraw(true, false));
 		assertTrue(CheckButton.shouldDraw(true, true));
 	}
+
+	@Test
+	public void q4_tooltipWithoutAHintIsJustCheckSetup()
+	{
+		assertEquals("Check setup", CheckButton.tooltip(null));
+	}
+
+	@Test
+	public void q5_tooltipWithAHintAddsItsRows()
+	{
+		assertEquals("Check setup</br>No setup open: click View setup</br>in the Inventory Setups plugin",
+			CheckButton.tooltip(Texts.HINT_OPEN_SETUP));
+	}
 }

@@ -38,10 +38,15 @@ public final class ClientItemFacts implements ItemFacts
 		return ItemVariationMapping.map(id);
 	}
 
+	/**
+	 * RuneLite keys the variation groups by their base id, so the group is looked up through {@link #base}: asked with
+	 * Prayer potion(3) directly it answers only Prayer potion(3), and no potion would ever look low (the user,
+	 * 2026-11-05: "still no flashing on the pots that are not full").
+	 */
 	@Override
 	public Collection<Integer> variations(int id)
 	{
-		final Collection<Integer> out = new ArrayList<>(ItemVariationMapping.getVariations(id));
+		final Collection<Integer> out = new ArrayList<>(ItemVariationMapping.getVariations(ItemVariationMapping.map(id)));
 		if (!out.contains(id))
 		{
 			out.add(id);

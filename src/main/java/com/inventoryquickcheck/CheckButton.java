@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.util.function.Supplier;
 import net.runelite.api.Client;
 import net.runelite.api.MenuAction;
 import net.runelite.api.gameval.InterfaceID;
@@ -37,6 +38,7 @@ public final class CheckButton extends Overlay
 	private final Client client;
 	private final InventoryQuickCheckConfig config;
 	private final TooltipManager tooltipManager;
+	private final Supplier<ShownResult> shown;
 	private final BufferedImage image;
 	private volatile Rectangle drawn;
 	private volatile Rectangle anchor;
@@ -47,12 +49,14 @@ public final class CheckButton extends Overlay
 	 * The plugin is passed on to RuneLite so that the menu's Configure line opens this plugin's own settings page
 	 * (RuneLite's config plugin does the opening, for any overlay that knows its plugin).
 	 */
-	public CheckButton(Plugin plugin, Client client, InventoryQuickCheckConfig config, TooltipManager tooltipManager)
+	public CheckButton(Plugin plugin, Client client, InventoryQuickCheckConfig config, TooltipManager tooltipManager,
+		Supplier<ShownResult> shown)
 	{
 		super(plugin);
 		this.client = client;
 		this.config = config;
 		this.tooltipManager = tooltipManager;
+		this.shown = shown;
 		this.image = makeImage();
 		setPosition(OverlayPosition.DETACHED);
 		setLayer(OverlayLayer.ABOVE_WIDGETS);
@@ -120,9 +124,16 @@ public final class CheckButton extends Overlay
 		final net.runelite.api.Point mouse = client.getMouseCanvasPosition();
 		if (mouse != null && now.contains(mouse.getX(), mouse.getY()))
 		{
-			tooltipManager.add(new Tooltip("Check setup"));
+			final ShownResult result = shown.get();
+			tooltipManager.add(new Tooltip(tooltip(result == null ? null : result.hint())));
 		}
 		return new Dimension(SIZE, SIZE);
+	}
+
+	/** The hover text: Check setup, then the hint's rows when a no-setup result is up. */
+	static String tooltip(String hint)
+	{
+		return hint == null ? "Check setup" : "Check setup</br>" + hint;
 	}
 
 	/** Whether the icon is drawn at all. */
