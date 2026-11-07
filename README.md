@@ -3,12 +3,14 @@
 <p align="center">- Click the red ! at the bank: see what's missing from your Inventory Setups setup.<br>
 - Bank items show how many to take out; low potions are outlined.</p>
 
+<p align="center"><img width="800" src="images/check.png" alt="The bank with orange numbers on the items to take out, the red ! button with the Missing box beside it, and the low potions outlined in red in the inventory"></p>
+
 ## What it shows
 
 - **The button.** A red "!" on the attack tab while your bank is open.
 - **Missing.** A small box beside the button with each missing item's picture and how many you need. It updates as you withdraw.
 - **Bank numbers.** An orange number on each bank item you need: how many to take out.
-- **Low potions.** Potions below your setup's dose are outlined in your inventory. With no setup open, any potion that isn't full is outlined.
+- **Low potions.** Potions below your setup's dose are outlined in your inventory.
 - **All good.** When nothing is missing, "All good" shows above the button.
 
 ## Quick guide
@@ -19,14 +21,33 @@
 4. **Close the bank.** The box, numbers and outlines go away.
 5. **Hotkey.** Set one in the settings to check anywhere.
 
+<table width="100%">
+<tr>
+<td valign="top">
+
+## No setup? Potions only
+
+With no setup open, or without Inventory Setups, one click still outlines every potion that isn't full, and "Potions only" shows above the button. Hover the ! for how to get the full check.
+
 ## Good to know
 
-- **Inventory Setups.** Needed for the full check. Without it, or with no setup open, the ! still outlines potions that aren't full; hover it for what to do.
 - **Order doesn't matter.** It checks that each item is there, not which slot it is in. Extra items are ignored.
 - **Stackables.** Coins, runes and ammo count once you carry some.
 - **Move it.** Hold Alt and drag the button or the box. Alt+right-click puts it back.
 - **Settings.** Shift+right-click the ! for Configure and our Discord.
 - **Privacy.** No network requests and no files. It only reads your inventory, worn items, bank and the setup.
+
+</td>
+<td width="28"></td>
+<td align="right" valign="top" width="235">
+
+<br>
+
+<img width="235" src="images/potions.png" alt="With no setup open: Potions only above the red ! button, and the potions that aren't full outlined in red">
+
+</td>
+</tr>
+</table>
 
 ---
 
