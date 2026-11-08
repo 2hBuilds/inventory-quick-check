@@ -87,6 +87,11 @@ public final class Checker
 			}
 			if (group == null)
 			{
+				// A potion the setup does not list is outlined when it is not full (the user, 2026-11-08, option 1).
+				if (LowPotions.isLow(id, facts))
+				{
+					lowSlots.add(slot);
+				}
 				continue;
 			}
 			if (group.dose)

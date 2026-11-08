@@ -7,9 +7,9 @@ import net.runelite.client.input.MouseAdapter;
 
 /**
  * Takes the left presses on the check button and runs the check. It never reads the client: the bounds are those of
- * the last drawn frame, because this runs on the AWT thread. A press with Alt held passes through, so RuneLite's own
- * Alt+drag and Alt+right-click still work on the icon; a right press passes through too, so the game's menu opens
- * with the button's own lines (Configure, Discord).
+ * the last drawn frame, because this runs on the AWT thread. A press with Alt held still passes through to RuneLite
+ * (the icon is locked to the tab, so that only matters for the box); a right press passes through too, so the game's
+ * menu opens with the button's own lines (Configure, Discord).
  * Choice: the click that follows a consumed press is consumed too, and so is the release.
  */
 public final class ButtonClicks extends MouseAdapter

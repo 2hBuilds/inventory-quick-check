@@ -2,6 +2,8 @@ package com.inventoryquickcheck;
 
 import com.google.gson.Gson;
 import com.google.inject.Provides;
+import java.awt.Color;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
@@ -17,6 +19,7 @@ import net.runelite.api.gameval.VarbitID;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.RuneLiteProperties;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemManager;
@@ -24,6 +27,7 @@ import net.runelite.client.input.KeyManager;
 import net.runelite.client.input.MouseManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.components.colorpicker.ColorPickerManager;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.ui.overlay.tooltip.TooltipManager;
 import net.runelite.client.util.HotkeyListener;
@@ -77,9 +81,17 @@ public class InventoryQuickCheckPlugin extends Plugin
 	private TooltipManager tooltipManager;
 
 	@Inject
+	private ColorPickerManager colorPickerManager;
+
+	@Inject
 	private InventoryQuickCheckConfig config;
 
 	private volatile ShownResult shown;
+	private volatile Map<Integer, Integer> previewSlots = new HashMap<>();
+	private volatile long previewStartMs = -1;
+	/** The colour under the picker's hand while it is open, else null. */
+	private volatile Color liveColour;
+	private OutlinePicker outlinePicker;
 	private SetupSource source;
 	private ClientItemFacts facts;
 	private ResultOverlay resultOverlay;
@@ -103,8 +115,11 @@ public class InventoryQuickCheckPlugin extends Plugin
 	{
 		source = new SetupSource(eventBus::post, configManager::getConfiguration, gson);
 		facts = new ClientItemFacts(itemManager);
-		resultOverlay = new ResultOverlay(() -> shown, () -> shown = null, config, () -> checkButton.anchor(), client);
-		marksOverlay = new MarksOverlay(() -> shown, config, itemManager);
+		outlinePicker = new OutlinePicker(colorPickerManager, client);
+		resultOverlay = new ResultOverlay(() -> shown, () -> shown = null, config, place -> checkButton.boxSpot(place),
+			client);
+		marksOverlay = new MarksOverlay(() -> shown, this::previewNow, this::markColourNow, config,
+			itemManager);
 		bankNumbersOverlay = new BankNumbersOverlay(() -> shown, config);
 		messageOverlay = new MessageOverlay(() -> shown, config, () -> checkButton.anchor(), client);
 		hotkeyListener = new HotkeyListener(config::hotkey)
@@ -115,7 +130,8 @@ public class InventoryQuickCheckPlugin extends Plugin
 				clientThread.invoke(() -> runCheck(false, System.currentTimeMillis(), BankState.isOpen(client)));
 			}
 		};
-		checkButton = new CheckButton(this, client, config, tooltipManager, () -> shown);
+		checkButton = new CheckButton(this, client, config, tooltipManager, () -> shown,
+			this::openOutlinePicker);
 		buttonClicks = new ButtonClicks(checkButton::drawn, () -> clientThread.invoke(() -> runCheck(true, System.currentTimeMillis(), BankState.isOpen(client))));
 		overlayManager.add(resultOverlay);
 		overlayManager.add(marksOverlay);
@@ -138,6 +154,9 @@ public class InventoryQuickCheckPlugin extends Plugin
 		overlayManager.remove(bankNumbersOverlay);
 		overlayManager.remove(messageOverlay);
 		shown = null;
+		previewSlots = new HashMap<>();
+		previewStartMs = -1;
+		liveColour = null;
 		probeArmed = false;
 	}
 
@@ -181,6 +200,133 @@ public class InventoryQuickCheckPlugin extends Plugin
 			low.put(slot, ids[slot]);
 		}
 		return low;
+	}
+
+	/** The potions to outline for the colour preview right now: empty when it is not showing. */
+	private Map<Integer, Integer> previewNow()
+	{
+		return liveColour != null || ColourPreview.showing(previewStartMs, System.currentTimeMillis())
+			? previewSlots : Collections.<Integer, Integer>emptyMap();
+	}
+
+	/** The outline colour to draw: the picker's live colour while it is open, else the saved one. */
+	private Color markColourNow()
+	{
+		final Color live = liveColour;
+		return live != null ? live : config.markColour();
+	}
+
+	/** Every potion carried, inventory slot to item id. Client thread. */
+	private Map<Integer, Integer> potionSlots()
+	{
+		final int[] ids = CarriedReader.read(client).inventoryIds;
+		final Map<Integer, Integer> potions = new HashMap<>();
+		for (final int slot : LowPotions.potionSlots(ids, facts))
+		{
+			potions.put(slot, ids[slot]);
+		}
+		return potions;
+	}
+
+	/**
+	 * The button menu's Outline colour line: opens RuneLite's colour picker; every potion carried is outlined in the
+	 * colour under the reader's hand, and the colour is saved when the picker closes.
+	 */
+	private void openOutlinePicker()
+	{
+		clientThread.invoke(() ->
+		{
+			if (client.getGameState() != GameState.LOGGED_IN)
+			{
+				return;
+			}
+			previewSlots = potionSlots();
+			outlinePicker.open(config.markColour(), this::liveMove, this::liveDone);
+		});
+	}
+
+	private void liveMove(Color colour)
+	{
+		liveColour = colour;
+		clientThread.invoke(() ->
+		{
+			if (client.getGameState() == GameState.LOGGED_IN)
+			{
+				previewSlots = potionSlots();
+			}
+		});
+	}
+
+	private void liveDone(Color colour)
+	{
+		if (colour != null)
+		{
+			configManager.setConfiguration(InventoryQuickCheckConfig.GROUP, "markColour", colour);
+		}
+		liveColour = null;
+	}
+
+	/** Starts the colour preview (five seconds) when the outline colour or thickness is saved. */
+	@Subscribe
+	public void onConfigChanged(ConfigChanged event)
+	{
+		if (resultOverlay != null && "runelite".equals(event.getGroup())
+			&& (resultOverlay.getName() + "_preferredLocation").equals(event.getKey()))
+		{
+			// RuneLite saved (a drag) or unset (Alt+right-click) the box's own spot.
+			final MissingBoxPlace now = config.boxPlace();
+			if (event.getNewValue() != null)
+			{
+				if (MissingBoxPlace.afterDrag(now) != null)
+				{
+					configManager.setConfiguration(InventoryQuickCheckConfig.GROUP, "boxPlaceBefore", now);
+					configManager.setConfiguration(InventoryQuickCheckConfig.GROUP, "boxPlace",
+						MissingBoxPlace.WHERE_I_DRAG);
+					say(Texts.BOX_DRAGGED);
+				}
+			}
+			else
+			{
+				final MissingBoxPlace back = MissingBoxPlace.afterReset(now, config.boxPlaceBefore());
+				if (back != null)
+				{
+					configManager.setConfiguration(InventoryQuickCheckConfig.GROUP, "boxPlace", back);
+					say(Texts.BOX_BACK + back + ".");
+				}
+			}
+			return;
+		}
+		if (InventoryQuickCheckConfig.GROUP.equals(event.getGroup()) && "boxPlace".equals(event.getKey())
+			&& resultOverlay != null)
+		{
+			final MissingBoxPlace place = config.boxPlace();
+			resultOverlay.apply(place);
+			if (place != MissingBoxPlace.WHERE_I_DRAG)
+			{
+				// A picked fixed choice (or Hidden) drops a dragged spot.
+				overlayManager.resetOverlay(resultOverlay);
+			}
+			return;
+		}
+		if (!ColourPreview.previews(event.getGroup(), event.getKey()))
+		{
+			return;
+		}
+		clientThread.invoke(() ->
+		{
+			if (client.getGameState() != GameState.LOGGED_IN)
+			{
+				return;
+			}
+			previewSlots = potionSlots();
+			previewStartMs = System.currentTimeMillis();
+		});
+	}
+
+	/** A game chat line, on the client thread (the panel cannot show a setting a plugin changed until reopened). */
+	private void say(String line)
+	{
+		clientThread.invoke(() -> client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", line, null));
 	}
 
 	@Subscribe

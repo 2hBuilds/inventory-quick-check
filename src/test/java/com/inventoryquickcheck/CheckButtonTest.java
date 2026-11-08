@@ -7,11 +7,50 @@ import static org.junit.Assert.assertTrue;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import net.runelite.client.ui.overlay.Overlay;
+import net.runelite.client.ui.overlay.OverlayLayer;
+import net.runelite.client.ui.overlay.OverlayPosition;
 import org.junit.Test;
 
 /** T21 and T23: where the button goes, and when it is drawn. */
 public class CheckButtonTest
 {
+	@Test
+	public void k1_buttonIsLockedToTheTab()
+	{
+		final CheckButton button = new CheckButton(null, null, null, null, () -> null, null);
+		assertFalse(button.isMovable());
+		assertFalse(button.isSnappable());
+		assertFalse(button.isResettable());
+	}
+
+	@Test
+	public void k2_buttonDrawsAboveOtherDetachedOverlays()
+	{
+		final CheckButton button = new CheckButton(null, null, null, null, () -> null, null);
+		assertEquals(Overlay.PRIORITY_HIGHEST, button.getPriority(), 0f);
+	}
+
+	@Test
+	public void k3_buttonStaysDetachedAboveWidgets()
+	{
+		final CheckButton button = new CheckButton(null, null, null, null, () -> null, null);
+		assertEquals(OverlayPosition.DETACHED, button.getPosition());
+		assertEquals(OverlayLayer.ABOVE_WIDGETS, button.getLayer());
+	}
+
+	@Test
+	public void f5_menuLines()
+	{
+		final CheckButton button = new CheckButton(null, null, null, null, () -> null, null);
+		final java.util.List<String> options = new java.util.ArrayList<>();
+		for (final net.runelite.client.ui.overlay.OverlayMenuEntry entry : button.getMenuEntries())
+		{
+			options.add(entry.getOption());
+		}
+		assertEquals(java.util.Arrays.asList("Configure", "Outline colour", "Discord"), options);
+	}
+
 	@Test
 	public void spotCentresOnTheTab()
 	{

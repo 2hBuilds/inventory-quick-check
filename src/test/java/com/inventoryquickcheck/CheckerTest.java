@@ -229,6 +229,22 @@ public class CheckerTest
 	}
 
 	@Test
+	public void c1_potionsTheSetupDoesNotListAreOutlinedWhenNotFull()
+	{
+		final SavedSetup setup = setup(slots(28, 0, it(BREW4), 1, it(BREW4)), slots(14));
+		final Carried carried = carried(ids(28, 0, BREW4, 1, BREW4, 2, MIX1, 3, RESTORE), ids(14), null);
+		assertEquals(new TreeSet<>(Collections.singletonList(2)), Checker.check(setup, carried, facts).lowSlots());
+	}
+
+	@Test
+	public void c2_aDoseTheSetupAsksForIsNotOutlined()
+	{
+		final SavedSetup setup = setup(slots(28, 0, it(BREW3)), slots(14));
+		final Carried carried = carried(ids(28, 0, BREW3, 1, MIX1), ids(14), null);
+		assertEquals(new TreeSet<>(Collections.singletonList(1)), Checker.check(setup, carried, facts).lowSlots());
+	}
+
+	@Test
 	public void t15_spareLowDosesAreMarkedToo()
 	{
 		// The user, 2026-11-04: "mark all low" - a spare (2) beside two full brews flashes as well.

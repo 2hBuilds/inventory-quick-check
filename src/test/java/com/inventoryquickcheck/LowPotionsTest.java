@@ -1,6 +1,7 @@
 package com.inventoryquickcheck;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -11,6 +12,25 @@ import org.junit.Test;
 public class LowPotionsTest
 {
 	private final ItemFacts facts = new FakeItemFacts();
+
+	@Test
+	public void p1_potionSlotsAreEveryPotion()
+	{
+		assertEquals(new TreeSet<>(Arrays.asList(0, 1, 3)),
+			LowPotions.potionSlots(new int[]{6685, 6687, 2562, 3024, 385, -1}, facts));
+	}
+
+	@Test
+	public void c3_isLow()
+	{
+		assertTrue(LowPotions.isLow(6687, facts));
+		assertTrue(LowPotions.isLow(11523, facts));
+		assertFalse(LowPotions.isLow(6685, facts));
+		assertFalse(LowPotions.isLow(3024, facts));
+		assertFalse(LowPotions.isLow(385, facts));
+		assertFalse(LowPotions.isLow(2562, facts));
+		assertFalse(LowPotions.isLow(-1, facts));
+	}
 
 	@Test
 	public void l1_brewBelowFourIsLow()

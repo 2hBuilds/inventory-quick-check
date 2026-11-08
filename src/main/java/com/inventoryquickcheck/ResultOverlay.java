@@ -5,8 +5,8 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import net.runelite.api.Client;
 import net.runelite.client.ui.overlay.Overlay;
@@ -15,8 +15,10 @@ import net.runelite.client.ui.overlay.components.ComponentConstants;
 
 /**
  * The box with the answer: a grid of item pictures with {@code x<k>} beside each, wrapped by the Box layout setting.
- * By default it sits directly left of the check button's icon, tops level; the player can Alt+drag it elsewhere
- * (RuneLite then places it) and Alt+right-click it back. Its right edge holds still as it shrinks (the user,
+ * Its default place is the Box place setting's (the spot the button works out for the choice); the player may
+ * Alt+drag it elsewhere (RuneLite then places it, and the plugin switches the setting to Where I drag it) and
+ * Alt+right-click it back. Hidden draws no box and locks it (not movable or resettable); it is never snappable.
+ * Its right edge holds still as it shrinks (the user,
  * 2026-11-05: "take the rightmost column location when we collapse it"): for one check the overlay keeps the width of
  * its widest moment and draws the box against that width's right edge, the space to its left left clear - so it
  * works wherever RuneLite pins the overlay's top-left corner. It never saves a place itself.
@@ -38,7 +40,7 @@ public final class ResultOverlay extends Overlay
 	private final Supplier<ShownResult> shown;
 	private final Runnable clear;
 	private final InventoryQuickCheckConfig config;
-	private final Supplier<Rectangle> anchor;
+	private final Function<MissingBoxPlace, BoxAnchor> boxSpot;
 	private final Client client;
 	/** The default place last asked for; render thread only. */
 	private Point lastPlace;
@@ -47,14 +49,30 @@ public final class ResultOverlay extends Overlay
 	private long widestFor = Long.MIN_VALUE;
 
 	public ResultOverlay(Supplier<ShownResult> shown, Runnable clear, InventoryQuickCheckConfig config,
-		Supplier<Rectangle> anchor, Client client)
+		Function<MissingBoxPlace, BoxAnchor> boxSpot, Client client)
 	{
 		this.shown = shown;
 		this.clear = clear;
 		this.config = config;
-		this.anchor = anchor;
+		this.boxSpot = boxSpot;
 		this.client = client;
 		setPosition(OverlayPosition.DETACHED);
+		apply(config.boxPlace());
+	}
+
+	/** Whether the box may be dragged: every choice but Hidden. */
+	static boolean movable(MissingBoxPlace place)
+	{
+		return place != MissingBoxPlace.HIDDEN;
+	}
+
+	/** Locks or frees the box for a Box place choice. */
+	void apply(MissingBoxPlace place)
+	{
+		final boolean free = movable(place);
+		setMovable(free);
+		setSnappable(false);
+		setResettable(free);
 	}
 
 	/**
@@ -83,7 +101,7 @@ public final class ResultOverlay extends Overlay
 		}
 		// The one-line messages (All good, the setup messages) are MessageOverlay's, above the icon.
 		final List<ShownResult.Row> rows = result.rows();
-		if (rows.isEmpty() || !config.showMissingBox())
+		if (rows.isEmpty() || config.boxPlace() == MissingBoxPlace.HIDDEN)
 		{
 			return null;
 		}
@@ -97,8 +115,10 @@ public final class ResultOverlay extends Overlay
 		final Dimension frame = new Dimension(widest, size.height);
 		if (getPreferredLocation() == null)
 		{
-			final Point place = BoxPlace.of(anchor.get(), frame,
-				new Dimension(client.getCanvasWidth(), client.getCanvasHeight()));
+			final Dimension canvas = new Dimension(client.getCanvasWidth(), client.getCanvasHeight());
+			final BoxAnchor hang = boxSpot.apply(config.boxPlace());
+			// Choice: no spot (null) is the canvas corner, as before.
+			final Point place = hang == null ? BoxPlace.of(null, frame, canvas) : hang.place(frame, canvas);
 			if (!place.equals(lastPlace))
 			{
 				// A new place (the icon moved, or the box grew): move there and draw from the next frame, so the box

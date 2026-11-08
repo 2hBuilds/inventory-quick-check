@@ -14,6 +14,13 @@ public final class Texts
 	public static final String CHAT_NEEDS = "2h Inventory Setups Quick Check needs the Inventory Setups plugin.";
 	public static final String ALL_GOOD = "All good";
 	public static final String MISSING_TITLE = "Missing";
+	/**
+	 * The chat line when a drag switches Box place: RuneLite's settings panel does not redraw when a plugin changes a
+	 * setting, so the switch is said where the player is looking.
+	 */
+	public static final String BOX_DRAGGED = "Box place is now Where I drag it. Alt+right-click the box to put it back.";
+	/** The start of the chat line when Alt+right-click switches Box place back; the choice's name and "." follow. */
+	public static final String BOX_BACK = "Box place is back to ";
 
 	private Texts()
 	{

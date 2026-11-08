@@ -29,7 +29,7 @@ public interface InventoryQuickCheckConfig extends Config
 	@ConfigItem(
 		keyName = "showButton",
 		name = "Show the button",
-		description = "Shows the check button on the attack tab while the bank is open.",
+		description = "Shows the check button while the bank is open.",
 		position = 1,
 		section = SECTION
 	)
@@ -39,10 +39,34 @@ public interface InventoryQuickCheckConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "buttonPlace",
+		name = "Button place",
+		description = "Where the check button sits while the bank is open.",
+		position = 2,
+		section = SECTION
+	)
+	default ButtonPlace buttonPlace()
+	{
+		return ButtonPlace.INSIDE_FIRST_SLOT;
+	}
+
+	@ConfigItem(
+		keyName = "buttonLook",
+		name = "Button look",
+		description = "How the check button looks. Each choice shows its picture.",
+		position = 3,
+		section = SECTION
+	)
+	default ButtonLook buttonLook()
+	{
+		return ButtonLook.GOLD_RING_CHECK;
+	}
+
+	@ConfigItem(
 		keyName = "hotkey",
 		name = "Hotkey",
 		description = "Runs the check anywhere.",
-		position = 2,
+		position = 4,
 		section = SECTION
 	)
 	default Keybind hotkey()
@@ -52,9 +76,9 @@ public interface InventoryQuickCheckConfig extends Config
 
 	@ConfigItem(
 		keyName = "markColour",
-		name = "Mark colour",
-		description = "Colour of the marks on low potions.",
-		position = 3,
+		name = "Outline colour",
+		description = "The colour of the outline on potions. For a live preview, Shift+right-click the button and choose Outline colour.",
+		position = 5,
 		section = SECTION
 	)
 	default Color markColour()
@@ -65,9 +89,9 @@ public interface InventoryQuickCheckConfig extends Config
 	@Range(min = 1, max = 3)
 	@ConfigItem(
 		keyName = "markThickness",
-		name = "Mark thickness",
-		description = "How thick the outline on low potions is, in pixels.",
-		position = 4,
+		name = "Outline thickness",
+		description = "How thick the outline on potions is, in pixels.",
+		position = 6,
 		section = SECTION
 	)
 	default int markThickness()
@@ -80,7 +104,7 @@ public interface InventoryQuickCheckConfig extends Config
 		keyName = "secondsToShow",
 		name = "Seconds to show",
 		description = "How long the result stays up after the hotkey. After the button it stays until the bank closes.",
-		position = 5,
+		position = 7,
 		section = SECTION
 	)
 	default int secondsToShow()
@@ -92,7 +116,7 @@ public interface InventoryQuickCheckConfig extends Config
 		keyName = "boxLayout",
 		name = "Box layout",
 		description = "How the list of missing things wraps when it is long.",
-		position = 6,
+		position = 8,
 		section = SECTION
 	)
 	default BoxLayout boxLayout()
@@ -101,26 +125,41 @@ public interface InventoryQuickCheckConfig extends Config
 	}
 
 	@ConfigItem(
-		keyName = "showMissingBox",
-		name = "Show the missing box",
-		description = "Shows the box of missing things. All good and the setup messages show either way.",
-		position = 7,
+		keyName = "boxPlace",
+		name = "Box place",
+		description = "Where the Missing box sits. Automatic is right of the bank (left of the inventory on the fixed "
+			+ "layout). Dragging it (Alt+drag) switches this to Where I drag it; Alt+right-click puts it back.",
+		position = 9,
 		section = SECTION
 	)
-	default boolean showMissingBox()
+	default MissingBoxPlace boxPlace()
 	{
-		return true;
+		return MissingBoxPlace.AUTOMATIC;
 	}
 
 	@ConfigItem(
 		keyName = "numberBankItems",
 		name = "Number the bank items",
 		description = "Shows on each bank item how many to take out.",
-		position = 8,
+		position = 10,
 		section = SECTION
 	)
 	default boolean numberBankItems()
 	{
 		return true;
+	}
+
+	/** The Box place choice from before a drag switched it to Where I drag it; the plugin keeps it, never shown. */
+	@ConfigItem(
+		keyName = "boxPlaceBefore",
+		name = "Box place before the drag",
+		description = "The Box place choice to go back to when the dragged spot is reset.",
+		hidden = true,
+		position = 11,
+		section = SECTION
+	)
+	default MissingBoxPlace boxPlaceBefore()
+	{
+		return MissingBoxPlace.AUTOMATIC;
 	}
 }

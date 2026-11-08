@@ -16,5 +16,7 @@ public class TextsTest
 		assertEquals("2h Inventory Setups Quick Check needs the Inventory Setups plugin.", Texts.CHAT_NEEDS);
 		assertEquals("All good", Texts.ALL_GOOD);
 		assertEquals("Missing", Texts.MISSING_TITLE);
+		assertEquals("Box place is now Where I drag it. Alt+right-click the box to put it back.", Texts.BOX_DRAGGED);
+		assertEquals("Box place is back to ", Texts.BOX_BACK);
 	}
 }

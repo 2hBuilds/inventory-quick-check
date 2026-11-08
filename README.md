@@ -1,22 +1,22 @@
 <p align="center"><img width="800" src="images/title.png" alt="2h Inventory Setups Quick Check"></p>
 
-<p align="center">- Click the red ! at the bank: see what's missing from your Inventory Setups setup.<br>
+<p align="center">- Click the button at the bank: see what's missing from your Inventory Setups setup.<br>
 - Bank items show how many to take out; low potions are outlined.</p>
 
-<p align="center"><img width="800" src="images/check.png" alt="The bank with orange numbers on the items to take out, the red ! button with the Missing box beside it, and the low potions outlined in red in the inventory"></p>
+<p align="center"><img width="800" src="images/check.png" alt="The bank with orange numbers on the items to take out, the check button with the Missing box beside it, and the low potions outlined in red in the inventory"></p>
 
 ## What it shows
 
-- **The button.** A red "!" on the attack tab while your bank is open.
-- **Missing.** A small box beside the button with each missing item's picture and how many you need. It updates as you withdraw.
-- **Bank numbers.** An orange number on each bank item you need: how many to take out.
-- **Low potions.** Potions below your setup's dose are outlined in your inventory.
-- **All good.** When nothing is missing, "All good" shows above the button.
+- **The button.** On your first inventory slot while the bank is open.
+- **Missing.** A box with each missing item and its count. Updates as you withdraw.
+- **Bank numbers.** How many to take out, on each bank item you need.
+- **Low potions.** Outlined: below your setup's dose, or not full if the setup doesn't list them.
+- **All good.** Shows above the button when nothing is missing.
 
 ## Quick guide
 
 1. **Pick a setup.** In the Inventory Setups plugin, click View setup (bank filter on).
-2. **Open your bank** and **click the red !** on the attack tab.
+2. **Open your bank** and **click the button**.
 3. **Withdraw** the numbered items. The box shrinks as you go.
 4. **Close the bank.** The box, numbers and outlines go away.
 5. **Hotkey.** Set one in the settings to check anywhere.
@@ -27,15 +27,16 @@
 
 ## No setup? Potions only
 
-With no setup open, or without Inventory Setups, one click still outlines every potion that isn't full, and "Potions only" shows above the button. Hover the ! for how to get the full check.
+With no setup open, one click still outlines every potion that isn't full. Hover the button for how to get the full check.
 
 ## Good to know
 
-- **Order doesn't matter.** It checks that each item is there, not which slot it is in. Extra items are ignored.
+- **Any order.** Slots don't matter; extra items are ignored.
 - **Stackables.** Coins, runes and ammo count once you carry some.
-- **Move it.** Hold Alt and drag the button or the box. Alt+right-click puts it back.
-- **Settings.** Shift+right-click the ! for Configure and our Discord.
-- **Privacy.** No network requests and no files. It only reads your inventory, worn items, bank and the setup.
+- **Button.** On the first slot, above the inventory, or on the attack tab; 13 looks, pictured in the settings.
+- **Missing box.** Right of the bank, left of the inventory, hidden, or Alt+drag it anywhere (Alt+right-click puts it back).
+- **Shift+right-click the button** for Configure, Outline colour (recolours potions live) and our Discord.
+- **Privacy.** No network, no files; it only reads your items, bank and setup.
 
 </td>
 <td width="28"></td>
@@ -43,7 +44,7 @@ With no setup open, or without Inventory Setups, one click still outlines every 
 
 <br>
 
-<img width="235" src="images/potions.png" alt="With no setup open: Potions only above the red ! button, and the potions that aren't full outlined in red">
+<img width="235" src="images/potions.png" alt="With no setup open: Potions only above the check button, and the potions that aren't full outlined in red">
 
 </td>
 </tr>
