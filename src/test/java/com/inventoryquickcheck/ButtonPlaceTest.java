@@ -17,7 +17,7 @@ public class ButtonPlaceTest
 	@Test
 	public void f1_defaultIsInsideTheFirstSlot()
 	{
-		assertEquals(ButtonPlace.INSIDE_FIRST_SLOT, new InventoryQuickCheckConfig()
+		assertEquals(ButtonPlace.ABOVE_INVENTORY, new InventoryQuickCheckConfig()
 		{
 		}.buttonPlace());
 	}

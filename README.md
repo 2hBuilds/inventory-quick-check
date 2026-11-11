@@ -7,7 +7,7 @@
 
 ## What it shows
 
-- **The button.** On your first inventory slot while the bank is open.
+- **The button.** Above your inventory while the bank is open.
 - **Missing.** A box with each missing item and its count. Updates as you withdraw.
 - **Bank numbers.** How many to take out, on each bank item you need.
 - **Low potions.** Outlined: below your setup's dose, or not full if the setup doesn't list them.
@@ -33,7 +33,7 @@ With no setup open, one click still outlines every potion that isn't full. Hover
 
 - **Any order.** Slots don't matter; extra items are ignored.
 - **Stackables.** Coins, runes and ammo count once you carry some.
-- **Button.** On the first slot, above the inventory, or on the attack tab; 13 looks, pictured in the settings.
+- **Button.** Above the inventory, on the first slot, or on the attack tab; 13 looks, pictured in the settings.
 - **Missing box.** Right of the bank, left of the inventory, hidden, or Alt+drag it anywhere (Alt+right-click puts it back).
 - **Shift+right-click the button** for Configure, Outline colour (recolours potions live) and our Discord.
 - **Privacy.** No network, no files; it only reads your items, bank and setup.

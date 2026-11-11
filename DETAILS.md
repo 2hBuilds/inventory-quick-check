@@ -6,7 +6,7 @@ One click at the bank checks what you carry against the setup open in the Invent
 
 ## The button
 
-A small picture (a gold ring with a tick by default) sits inside the top-left corner of your inventory's first slot while your bank is open. Hover it for "Check setup". A left click runs the check. Shift+right-click it for "Configure" (this plugin's settings), "Outline colour" (opens RuneLite's colour picker; every potion you carry is outlined in the colour as you move it, and the colour is saved when the picker closes) and "Discord" (opens the 2hBuilds Discord in your browser). "Button place" can put it above the inventory (on the skills tab in the fixed and resizable classic layouts) or on the attack tab instead. Where the box of missing things sits is the Box place setting (below). It never moves on its own. "Button look" picks its picture from thirteen (Gold ring check by default); each choice shows its picture in the settings list. The "Show the button" setting hides it.
+A small picture (a gold ring with a tick by default) sits above your inventory while your bank is open (on the skills tab in the fixed and resizable classic layouts). Hover it for "Check setup". A left click runs the check. Shift+right-click it for "Configure" (this plugin's settings), "Outline colour" (opens RuneLite's colour picker; every potion you carry is outlined in the colour as you move it, and the colour is saved when the picker closes) and "Discord" (opens the 2hBuilds Discord in your browser). "Button place" can put it on the first slot's top-left corner (smaller) or on the attack tab instead. Where the box of missing things sits is the Box place setting (below). It never moves on its own. "Button look" picks its picture from thirteen (Gold ring check by default); each choice shows its picture in the settings list. The "Show the button" setting hides it.
 
 ## The hotkey
 
@@ -40,7 +40,7 @@ In RuneLite's settings, under 2h Inventory Setups Quick Check, or Shift+right-cl
 | Setting | What it does |
 |---|---|
 | Show the button | Shows the check button while the bank is open. On by default. |
-| Button place | Where the button sits: Above the inventory, Inside the first slot, or Attack tab. Inside the first slot by default. |
+| Button place | Where the button sits: Above the inventory, Inside the first slot, or Attack tab. Above the inventory by default. |
 | Button look | How the button looks, one of thirteen pictures, each shown in the settings list. Gold ring check by default. |
 | Hotkey | Runs the check anywhere. Not set by default. |
 | Outline colour | The colour of the outline on potions. Red by default. Picking a colour here shows it on every potion in your inventory for five seconds. For a live preview, Shift+right-click the button and choose Outline colour. |

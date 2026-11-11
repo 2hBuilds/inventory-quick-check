@@ -47,7 +47,7 @@ public interface InventoryQuickCheckConfig extends Config
 	)
 	default ButtonPlace buttonPlace()
 	{
-		return ButtonPlace.INSIDE_FIRST_SLOT;
+		return ButtonPlace.ABOVE_INVENTORY;
 	}
 
 	@ConfigItem(
