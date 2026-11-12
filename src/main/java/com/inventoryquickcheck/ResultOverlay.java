@@ -99,6 +99,10 @@ public final class ResultOverlay extends Overlay
 			clear.run();
 			return null;
 		}
+		if (!showsBox(BankState.isOpen(client), config.hotkeyBoxWhenBankClosed()))
+		{
+			return null;
+		}
 		// The one-line messages (All good, the setup messages) are MessageOverlay's, above the icon.
 		final List<ShownResult.Row> rows = result.rows();
 		if (rows.isEmpty() || config.boxPlace() == MissingBoxPlace.HIDDEN)
@@ -152,6 +156,16 @@ public final class ResultOverlay extends Overlay
 			return true;
 		}
 		return !result.fromButton() && nowMs - result.startMs() >= secondsToShow * 1000L;
+	}
+
+	/**
+	 * Whether the box and its one-line messages show: always with the bank open; with it closed (a hotkey check) only
+	 * when the setting asks, else the potion outlines are the whole answer (the user, 2026-11-12: "maybe the user just
+	 * wants to drink a non full potion").
+	 */
+	static boolean showsBox(boolean bankOpen, boolean whenBankClosed)
+	{
+		return bankOpen || whenBankClosed;
 	}
 
 	private static int titleHeight(FontMetrics metrics)

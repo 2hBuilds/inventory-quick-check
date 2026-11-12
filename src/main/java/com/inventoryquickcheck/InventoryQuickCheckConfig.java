@@ -125,10 +125,23 @@ public interface InventoryQuickCheckConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "hotkeyBoxWhenBankClosed",
+		name = "Hotkey: shows missing items box when bank is closed",
+		description = "Off: with the bank closed, the hotkey only outlines potions that aren't full. On: it also shows "
+			+ "the Missing box and its one-line messages.",
+		position = 9,
+		section = SECTION
+	)
+	default boolean hotkeyBoxWhenBankClosed()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 		keyName = "boxLayout",
 		name = "Box layout",
 		description = "How the list of missing things wraps when it is long.",
-		position = 9,
+		position = 10,
 		section = SECTION
 	)
 	default BoxLayout boxLayout()
@@ -141,7 +154,7 @@ public interface InventoryQuickCheckConfig extends Config
 		name = "Box place",
 		description = "Where the Missing box sits. Automatic is right of the bank (left of the inventory on the fixed "
 			+ "layout). Dragging it (Alt+drag) switches this to Where I drag it; Alt+right-click puts it back.",
-		position = 10,
+		position = 11,
 		section = SECTION
 	)
 	default MissingBoxPlace boxPlace()
@@ -153,7 +166,7 @@ public interface InventoryQuickCheckConfig extends Config
 		keyName = "numberBankItems",
 		name = "Number the bank items",
 		description = "Shows on each bank item how many to take out.",
-		position = 11,
+		position = 12,
 		section = SECTION
 	)
 	default boolean numberBankItems()
@@ -167,7 +180,7 @@ public interface InventoryQuickCheckConfig extends Config
 		name = "Box place before the drag",
 		description = "The Box place choice to go back to when the dragged spot is reset.",
 		hidden = true,
-		position = 12,
+		position = 13,
 		section = SECTION
 	)
 	default MissingBoxPlace boxPlaceBefore()

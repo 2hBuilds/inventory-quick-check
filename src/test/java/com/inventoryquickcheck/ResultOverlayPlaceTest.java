@@ -16,4 +16,13 @@ public class ResultOverlayPlaceTest
 		assertTrue(ResultOverlay.movable(MissingBoxPlace.WHERE_I_DRAG));
 		assertFalse(ResultOverlay.movable(MissingBoxPlace.HIDDEN));
 	}
+
+	@Test
+	public void h1_withTheBankClosedTheBoxShowsOnlyWhenAskedFor()
+	{
+		assertTrue(ResultOverlay.showsBox(true, false));
+		assertTrue(ResultOverlay.showsBox(true, true));
+		assertTrue(ResultOverlay.showsBox(false, true));
+		assertFalse(ResultOverlay.showsBox(false, false));
+	}
 }

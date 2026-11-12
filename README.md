@@ -19,7 +19,7 @@
 2. **Open your bank** and **click the button**.
 3. **Withdraw** the numbered items. The box shrinks as you go.
 4. **Close the bank.** The box, numbers and outlines go away.
-5. **Hotkey.** Set one in the settings to check anywhere.
+5. **Hotkey.** Set one in the settings to check anywhere. Away from the bank it only outlines potions (a setting brings the box back).
 
 <table width="100%">
 <tr>

@@ -54,7 +54,8 @@ public final class MessageOverlay extends Overlay
 	{
 		final ShownResult result = shown.get();
 		if (result == null || result.message() == null || !result.rows().isEmpty()
-			|| ResultOverlay.over(result, System.currentTimeMillis(), config.secondsToShow(), BankState.isOpen(client)))
+			|| ResultOverlay.over(result, System.currentTimeMillis(), config.secondsToShow(), BankState.isOpen(client))
+			|| !ResultOverlay.showsBox(BankState.isOpen(client), config.hotkeyBoxWhenBankClosed()))
 		{
 			return null;
 		}
