@@ -7,7 +7,7 @@ package com.inventoryquickcheck;
 public final class Version
 {
 	/** The version this build ships as, {@code major.minor.patch}. */
-	public static final String CURRENT = "1.0.1";
+	public static final String CURRENT = "1.0.2";
 
 	private Version()
 	{

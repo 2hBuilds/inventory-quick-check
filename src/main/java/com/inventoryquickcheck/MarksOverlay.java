@@ -51,7 +51,8 @@ public final class MarksOverlay extends WidgetItemOverlay
 			return;
 		}
 		final ShownResult result = shown.get();
-		final Integer low = result == null || !Blink.lit(System.currentTimeMillis() - result.startMs())
+		final Integer low = result == null
+			|| !Blink.lit(System.currentTimeMillis() - result.startMs(), config.potionFlashes())
 			? null : result.lowSlots().get(widget.getIndex());
 		final Integer previewed = preview.get().get(widget.getIndex());
 		if ((low == null || low != itemId) && (previewed == null || previewed != itemId))

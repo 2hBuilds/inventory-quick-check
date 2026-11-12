@@ -99,12 +99,24 @@ public interface InventoryQuickCheckConfig extends Config
 		return 2;
 	}
 
+	@ConfigItem(
+		keyName = "potionFlashes",
+		name = "Potion flashes",
+		description = "How many times the outline on potions flashes off and on.",
+		position = 7,
+		section = SECTION
+	)
+	default PotionFlashes potionFlashes()
+	{
+		return PotionFlashes.ONE;
+	}
+
 	@Range(min = 2, max = 30)
 	@ConfigItem(
 		keyName = "secondsToShow",
-		name = "Seconds to show",
+		name = "Hotkey: seconds to show",
 		description = "How long the result stays up after the hotkey. After the button it stays until the bank closes.",
-		position = 7,
+		position = 8,
 		section = SECTION
 	)
 	default int secondsToShow()
@@ -116,7 +128,7 @@ public interface InventoryQuickCheckConfig extends Config
 		keyName = "boxLayout",
 		name = "Box layout",
 		description = "How the list of missing things wraps when it is long.",
-		position = 8,
+		position = 9,
 		section = SECTION
 	)
 	default BoxLayout boxLayout()
@@ -129,7 +141,7 @@ public interface InventoryQuickCheckConfig extends Config
 		name = "Box place",
 		description = "Where the Missing box sits. Automatic is right of the bank (left of the inventory on the fixed "
 			+ "layout). Dragging it (Alt+drag) switches this to Where I drag it; Alt+right-click puts it back.",
-		position = 9,
+		position = 10,
 		section = SECTION
 	)
 	default MissingBoxPlace boxPlace()
@@ -141,7 +153,7 @@ public interface InventoryQuickCheckConfig extends Config
 		keyName = "numberBankItems",
 		name = "Number the bank items",
 		description = "Shows on each bank item how many to take out.",
-		position = 10,
+		position = 11,
 		section = SECTION
 	)
 	default boolean numberBankItems()
@@ -155,7 +167,7 @@ public interface InventoryQuickCheckConfig extends Config
 		name = "Box place before the drag",
 		description = "The Box place choice to go back to when the dragged spot is reset.",
 		hidden = true,
-		position = 11,
+		position = 12,
 		section = SECTION
 	)
 	default MissingBoxPlace boxPlaceBefore()

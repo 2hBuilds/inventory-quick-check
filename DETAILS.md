@@ -10,7 +10,7 @@ A small picture (a gold ring with a tick by default) sits above your inventory w
 
 ## The hotkey
 
-Set "Hotkey" in the settings to run the same check anywhere, bank open or not. The result then shows for "Seconds to show" (6 by default). At the bank it also clears when the bank closes. With no hotkey set (the default), only the button runs the check.
+Set "Hotkey" in the settings to run the same check anywhere, bank open or not. The result then shows for "Hotkey: seconds to show" (6 by default). At the bank it also clears when the bank closes. With no hotkey set (the default), only the button runs the check.
 
 ## What it checks
 
@@ -27,7 +27,7 @@ It does not check how many of a stackable you carry (coins, runes, ammo count as
 
 - **Missing.** A box titled "Missing" lists each missing item as its picture with "x2", "x3" and so on beside it. Items you can wear come first, then other items, then stackables, then food and potions. The box keeps its right edge still as it shrinks. Where it sits is the Box place setting: Automatic (the default: right of the bank, or left of the inventory on the fixed layout, where the bank leaves no room beside it), left of the inventory, right of the bank, where you drag it (hold Alt and drag it; dragging switches the setting to this, and Alt+right-click puts it back; a chat line says so, because RuneLite's settings panel shows the change only when reopened), or hidden.
 - **Bank numbers.** Each bank item that answers a line of the box shows how many to take out, in bold orange at its bottom-right corner. For a potion the number goes on its strongest dose in your bank. An item to wear gets a 1 unless your inventory already holds it. Numbers for the same bank item add up.
-- **Low potions.** Their outline flashes twice, and the second flash stays, in your inventory and in the bank's view of your inventory.
+- **Low potions.** Their outline flashes once and stays, in your inventory and in the bank's view of your inventory (Potion flashes: Steady, 1, 2, 3 or 5 flashes, or Nonstop).
 - **All good.** When nothing is missing, "All good" shows just above the button.
 - **No setup.** With no setup open, or Inventory Setups off, a short "Potions only" shows just above the button when potions were outlined, or "Potions full" when none were. Hover the button for what to do: "No setup open: click View setup in the Inventory Setups plugin", or "For the full check, install or turn on the Inventory Setups plugin". A chat line also says so once per login when Inventory Setups is missing.
 
@@ -45,7 +45,8 @@ In RuneLite's settings, under 2h Inventory Setups Quick Check, or Shift+right-cl
 | Hotkey | Runs the check anywhere. Not set by default. |
 | Outline colour | The colour of the outline on potions. Red by default. Picking a colour here shows it on every potion in your inventory for five seconds. For a live preview, Shift+right-click the button and choose Outline colour. |
 | Outline thickness | How thick the outline is, 1 to 3 pixels. 2 by default. |
-| Seconds to show | How long a hotkey result stays up, 2 to 30. 6 by default. A button result stays until the bank closes. |
+| Potion flashes | How many times the outline flashes off and on: Steady, 1, 2, 3 or 5 flashes, or Nonstop, each shown as a small bar in your outline colour. 1 flash by default. |
+| Hotkey: seconds to show | How long a hotkey result stays up, 2 to 30. 6 by default. A button result stays until the bank closes. |
 | Box layout | How a long list wraps: One column (the default: up to 8, then "+N"), Columns of 7, Two columns of 7, or Two columns of 10. |
 | Box place | Where the Missing box sits: Automatic (the default), Left of the inventory, Right of the bank, Where I drag it, or Hidden. Dragging it (Alt+drag) switches this to Where I drag it; Alt+right-click puts it back. |
 | Number the bank items | Shows on each bank item how many to take out. On by default. |

@@ -3,11 +3,7 @@ package com.inventoryquickcheck;
 /** The blink schedule of the marks. */
 public final class Blink
 {
-	/**
-	 * Two flashes, the second staying lit (the user, 2026-11-05: "they do 3 flashes tho, put that to 2"; the schedule
-	 * before lit twice and then stayed lit, which reads as three).
-	 */
-	private static final long BLINKING_MS = 500;
+	/** One cycle: lit for {@link #LIT_MS}, then dark until the cycle ends; each dark-then-lit is one flash. */
 	private static final long CYCLE_MS = 500;
 	private static final long LIT_MS = 300;
 
@@ -15,10 +11,14 @@ public final class Blink
 	{
 	}
 
-	/** Whether the marks are lit this long after the check: lit 0-299, dark 300-499; lit from 500. */
-	public static boolean lit(long elapsedMs)
+	/**
+	 * Whether the marks are lit this long after the check. Lit 0-299, dark 300-499, and so on; after {@code count}
+	 * cycles lit for good (1 flash: lit from 500). Steady is always lit; Nonstop never settles.
+	 */
+	public static boolean lit(long elapsedMs, PotionFlashes flashes)
 	{
-		if (elapsedMs < 0 || elapsedMs >= BLINKING_MS)
+		final int count = flashes.count();
+		if (elapsedMs < 0 || (count >= 0 && elapsedMs >= count * CYCLE_MS))
 		{
 			return true;
 		}

@@ -115,6 +115,7 @@ public class InventoryQuickCheckPlugin extends Plugin
 	{
 		source = new SetupSource(eventBus::post, configManager::getConfiguration, gson);
 		facts = new ClientItemFacts(itemManager);
+		PotionFlashes.useColour(config.markColour());
 		outlinePicker = new OutlinePicker(colorPickerManager, client);
 		resultOverlay = new ResultOverlay(() -> shown, () -> shown = null, config, place -> checkButton.boxSpot(place),
 			client);
@@ -307,6 +308,11 @@ public class InventoryQuickCheckPlugin extends Plugin
 				overlayManager.resetOverlay(resultOverlay);
 			}
 			return;
+		}
+		if (InventoryQuickCheckConfig.GROUP.equals(event.getGroup()) && "markColour".equals(event.getKey()))
+		{
+			// The Potion flashes bars in the settings list are drawn in the outline colour.
+			PotionFlashes.useColour(config.markColour());
 		}
 		if (!ColourPreview.previews(event.getGroup(), event.getKey()))
 		{

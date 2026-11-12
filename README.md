@@ -35,6 +35,7 @@ With no setup open, one click still outlines every potion that isn't full. Hover
 - **Stackables.** Coins, runes and ammo count once you carry some.
 - **Button.** Above the inventory, on the first slot, or on the attack tab; 13 looks, pictured in the settings.
 - **Missing box.** Right of the bank, left of the inventory, hidden, or Alt+drag it anywhere (Alt+right-click puts it back).
+- **Potion flashes.** Steady, 1 to 5 flashes, or Nonstop; set it in the settings.
 - **Shift+right-click the button** for Configure, Outline colour (recolours potions live) and our Discord.
 - **Privacy.** No network, no files; it only reads your items, bank and setup.
 
