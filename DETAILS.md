@@ -10,7 +10,7 @@ A small picture (a gold ring with a tick by default) sits above your inventory w
 
 ## The hotkey
 
-Set "Hotkey" in the settings to run the same check anywhere, bank open or not. The result then shows for "Hotkey: seconds to show" (6 by default). At the bank it also clears when the bank closes. With the bank closed, the hotkey only outlines the potions that aren't full, unless "Hotkey: shows missing items box when bank is closed" is on (off by default). With no hotkey set (the default), only the button runs the check.
+Set "Hotkey" in the settings to run the same check anywhere, bank open or not. At the bank its result stays until the bank closes, like the button's. With the bank closed it shows for "Hotkey: seconds to show" (6 by default). With the bank closed, the hotkey only outlines the potions that aren't full, unless "Hotkey: shows missing items box when bank is closed" is on (off by default). With no hotkey set (the default), only the button runs the check.
 
 ## What it checks
 
@@ -46,7 +46,7 @@ In RuneLite's settings, under 2h Inventory Setups Quick Check, or Shift+right-cl
 | Outline colour | The colour of the outline on potions. Red by default. Picking a colour here shows it on every potion in your inventory for five seconds. For a live preview, Shift+right-click the button and choose Outline colour. |
 | Outline thickness | How thick the outline is, 1 to 3 pixels. 2 by default. |
 | Potion flashes | How many times the outline flashes off and on: Steady, 1, 2, 3 or 5 flashes, or Nonstop, each shown as a small bar in your outline colour. 1 flash by default. |
-| Hotkey: seconds to show | How long a hotkey result stays up, 2 to 30. 6 by default. A button result stays until the bank closes. |
+| Hotkey: seconds to show | How long a hotkey result stays up with the bank closed, 2 to 30. 6 by default. At the bank a result stays until the bank closes. |
 | Hotkey: shows missing items box when bank is closed | Off (the default): with the bank closed, the hotkey only outlines potions that aren't full. On: it also shows the Missing box and its one-line messages. |
 | Box layout | How a long list wraps: One column (the default: up to 8, then "+N"), Columns of 7, Two columns of 7, or Two columns of 10. |
 | Box place | Where the Missing box sits: Automatic (the default), Left of the inventory, Right of the bank, Where I drag it, or Hidden. Dragging it (Alt+drag) switches this to Where I drag it; Alt+right-click puts it back. |

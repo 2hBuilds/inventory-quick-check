@@ -146,16 +146,17 @@ public final class ResultOverlay extends Overlay
 	}
 
 	/**
-	 * Whether a shown result is over: it started at the bank and the bank is closed, or it came from the hotkey and its
-	 * seconds are up (a check from the button stays until the bank closes).
+	 * Whether a shown result is over: one that started at the bank (button or hotkey) when the bank closes, and not
+	 * before (the user, 2026-11-12: a hotkey check at the bank works like the button); one that started away from the
+	 * bank when its seconds are up.
 	 */
 	static boolean over(ShownResult result, long nowMs, int secondsToShow, boolean bankOpen)
 	{
-		if (result.startedAtBank() && !bankOpen)
+		if (result.startedAtBank())
 		{
-			return true;
+			return !bankOpen;
 		}
-		return !result.fromButton() && nowMs - result.startMs() >= secondsToShow * 1000L;
+		return nowMs - result.startMs() >= secondsToShow * 1000L;
 	}
 
 	/**

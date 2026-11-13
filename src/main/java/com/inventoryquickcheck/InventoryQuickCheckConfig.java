@@ -115,7 +115,8 @@ public interface InventoryQuickCheckConfig extends Config
 	@ConfigItem(
 		keyName = "secondsToShow",
 		name = "Hotkey: seconds to show",
-		description = "How long the result stays up after the hotkey. After the button it stays until the bank closes.",
+		description = "How long a hotkey result stays up with the bank closed. At the bank it stays until the bank "
+			+ "closes.",
 		position = 8,
 		section = SECTION
 	)
